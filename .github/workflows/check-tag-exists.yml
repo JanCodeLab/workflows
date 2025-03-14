@@ -1,0 +1,34 @@
+name: Check Tag Exists
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        description: 'Tag to check'
+        required: true
+        type: string
+    outputs:
+      exists:
+        description: 'Whether the tag exists on remote'
+        value: ${{ jobs.check-tag.outputs.tag_exists }}
+      tag:
+        description: 'Checked tag'
+        value: ${{ inputs.tag }}
+
+jobs:
+  check-tag:
+    name: Check if tag exists
+    runs-on: ubuntu-latest
+    outputs:
+      tag_exists: ${{ steps.check-tag.outputs.exists }}
+    steps:
+      - name: Check if tag exists on remote
+        id: check-tag
+        run: |
+          if git ls-remote --tags origin refs/tags/${{ inputs.tag }} | grep -q "refs/tags/${{ inputs.tag }}"; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Tag '${{ inputs.tag }}' exists on remote."
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Tag '${{ inputs.tag }}' does not exist on remote."
+          fi

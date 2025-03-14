@@ -14,9 +14,17 @@ on:
         type: boolean
 
 jobs:
+  check-tag-exists:
+    name: Check if tag exists
+    uses: ./.github/workflows/check-tag-exists.yml
+    with:
+      tag: ${{ inputs.tag }}
+
   create-tag:
+    needs: check-tag-exists
+    if: ${{ !needs.check-tag-exists.outputs.exists == 'false'}}
     name: Create and push Tag
     uses: ./.github/workflows/create-push-tags.yml
     with:
-      tag: ${{ inputs.tag }}
+      tag: ${{ needs.check-tag-exists.outputs.tag }}
       is-latest: ${{ inputs.is-latest }}

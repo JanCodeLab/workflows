@@ -42,20 +42,6 @@ add-tag:
 |-------|-------------|----------|---------|
 | `version-file` | Tag to add. | Yes | `''` |
 | `is-latest` | Set current tag as latest | No | `true` |
-## Example: Adding a tag from package.json
-
-```yaml
-jobs:
-  add-tag:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Add tag
-        uses: duchacekjan/action-add-tag@v1
-        with:
-          package-json-file: 'path/to/package.json'
-```
 
 ## Changelog
 - v1 (latest)
