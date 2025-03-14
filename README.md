@@ -44,5 +44,7 @@ add-tag:
 | `is-latest` | Set current tag as latest | No | `true` |
 
 ## Changelog
-- v1 (latest)
+- v1.1 (latest)
+  - Added tag existence check
+- v1
   - Initial implementation of shared workflow functionalities
