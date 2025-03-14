@@ -15,13 +15,7 @@ on:
 
 jobs:
   self-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Add tag
-        uses: JanCodeLab/workflows/add-tag.yml@main
-        with:
-          tag: ${{ github.event.inputs.tag }}
-          is-latest: ${{ github.event.inputs.is-latest }}
+    uses: ./add-tag.yml
+    with:
+      tag: ${{ github.event.inputs.tag }}
+      is-latest: ${{ github.event.inputs.is-latest }}
