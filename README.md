@@ -1,33 +1,46 @@
-# Add tag action
+# Add tag workflow
 
 This GitHub Action adds a tag to the current branch and pushes it to remote. It can also add or update the 'latest' tag.
 
 ## Usage
 
 ```yaml
-- name: Add tag
-  uses: duchacekjan/action-add-tag@v1
-  with:
-    tag: 'v1.0.0'  # Tag to add
-    package-json-file: 'path/to/package.json'  # Path to package.json file
-    is-latest: true  # Set current tag as latest
-    is-test: false # Test mode. Does not pushes to remote
+add-tag:
+    name: Release workflow
+    uses: JanCodeLab/workflows/.github/workflows/add-tag.yml@latest
+    with:
+      tag: 'v1'
+      is-latest: true
 ```
 
 ## Inputs
 
 | Input | Description | Required | Default |
 |-------|-------------|----------|---------|
-| `tag` | Tag to add. If defined, other tag options are ignored| No | `''` |
-| `package-json-file` | Retrieves tag as version from package.json file | No | `''` |
+| `tag` | Tag to add. | Yes | `''` |
 | `is-latest` | Set current tag as latest | No | `true` |
 
-## Outputs
+# Add tag from package json workflow
 
-| Output | Description |
-|--------|-------------|
-| `tag` | Tag added |
+This GitHub Action adds a tag to the current branch and pushes it to remote. It can also add or update the 'latest' tag.
 
+## Usage
+
+```yaml
+add-tag:
+    name: Release workflow
+    uses: JanCodeLab/workflows/.github/workflows/add-tag-from-package.yml@latest
+    with:
+      version-file: './package.json'
+      is-latest: true
+```
+
+## Inputs
+
+| Input | Description | Required | Default |
+|-------|-------------|----------|---------|
+| `version-file` | Tag to add. | Yes | `''` |
+| `is-latest` | Set current tag as latest | No | `true` |
 ## Example: Adding a tag from package.json
 
 ```yaml
@@ -45,4 +58,4 @@ jobs:
 
 ## Changelog
 - v1 (latest)
-  - Initial implementation of action functionality
+  - Initial implementation of shared workflow functionalities
