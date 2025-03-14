@@ -1,0 +1,59 @@
+name: Create and Push Tag
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        description: 'Tag to create and push'
+        required: true
+        type: string
+      is-latest:
+        description: 'Handle add or update latest tag'
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+          
+      - name: Set git committer
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          echo "Git committer set to ${{ github.actor }}"
+          
+      - name: Create and push tag
+        run: |
+          TAG="${{ inputs.tag }}"
+          echo "Creating tag $TAG at current HEAD"
+          
+          # Create tag at current HEAD
+          git tag -a "$TAG" -m "Release $TAG"
+          
+          # Push tag to remote
+          git push origin "$TAG"
+          
+          echo "✅ Successfully created and pushed tag: $TAG"
+          
+      - name: Update latest tag
+        if: ${{ inputs.is-latest }}
+        run: |
+          echo "Updating latest tag to point to the same commit as ${{ inputs.tag }}"
+          
+          # Delete the local latest tag if it exists (don't error if it doesn't)
+          git tag -d latest 2>/dev/null || true
+          
+          # Delete the remote latest tag if it exists (don't error if it doesn't)
+          git push origin :refs/tags/latest 2>/dev/null || true
+          
+          # Create a new latest tag pointing to the current HEAD
+          git tag -a latest -m "Latest version ${{ inputs.tag }}"
+          
+          # Push the latest tag
+          git push origin latest
+          
+          echo "✅ Successfully updated latest tag"

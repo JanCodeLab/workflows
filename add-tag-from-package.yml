@@ -1,0 +1,64 @@
+name: Add Tag from Package.json
+
+on:
+  workflow_call:
+    inputs:
+      version-file:
+        description: 'Path file containing the version'
+        required: true
+        type: string
+      is-latest:
+        description: 'Handle add or update latest tag'
+        required: false
+        default: true
+        type: boolean
+    outputs:
+      tag:
+        description: "The tag that was created"
+        value: ${{ jobs.extract-tag.outputs.tag }}
+
+jobs:
+  extract-tag:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.get-tag.outputs.tag }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Get tag from package.json
+        id: get-tag
+        run: |
+          if [[ ! -f "${{ inputs.version-file }}" ]]; then
+            echo "❌ Version file not found: ${{ inputs.version-file }}"
+            exit 1
+          fi
+          
+          echo "Getting tag from version file: ${{ inputs.version-file }}"
+          VERSION=$(cat ${{ inputs.version-file }} | jq -r '.version')
+          echo "Raw version from package.json: $VERSION"
+          
+          # Trim trailing zeros
+          # Split version by dots and process each part
+          IFS='.' read -ra VERSION_PARTS <<< "$VERSION"
+          
+          # Remove trailing zeros
+          while [ ${#VERSION_PARTS[@]} -gt 1 ] && [ "${VERSION_PARTS[-1]}" == "0" ]; do
+            unset 'VERSION_PARTS[${#VERSION_PARTS[@]}-1]'
+          done
+          
+          # Join parts back with dots
+          TRIMMED_VERSION=$(IFS='.'; echo "${VERSION_PARTS[*]}")
+          echo "Trimmed version: $TRIMMED_VERSION"
+          
+          # Set the tag with v prefix
+          TAG="v$TRIMMED_VERSION"
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "✅ Retrieved tag: $TAG"
+
+  create-tag:
+    needs: extract-tag
+    uses: ./create-push-tags.yml
+    with:
+      tag: ${{ needs.extract-tag.outputs.tag }}
+      is-latest: ${{ inputs.is-latest }}

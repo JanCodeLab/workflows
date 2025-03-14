@@ -1,0 +1,38 @@
+name: Add Tag
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        description: 'Tag to add'
+        required: true
+        type: string
+      is-latest:
+        description: 'Handle add or update latest tag'
+        required: false
+        default: true
+        type: boolean
+    outputs:
+      tag:
+        description: "The tag that was created"
+        value: ${{ jobs.process-tag.outputs.tag }}
+
+jobs:
+  process-tag:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.format-tag.outputs.tag }}
+    steps:
+      - name: Format tag
+        id: format-tag
+        run: |
+          TAG="${{ inputs.tag }}"
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "✅ Using provided tag: $TAG"
+
+  create-tag:
+    needs: process-tag
+    uses: ./create-push-tags.yml
+    with:
+      tag: ${{ needs.process-tag.outputs.tag }}
+      is-latest: ${{ inputs.is-latest }}
