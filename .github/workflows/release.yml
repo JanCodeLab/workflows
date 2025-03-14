@@ -1,0 +1,21 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to be added'
+        required: true
+        type: string
+      is-latest:
+        description: 'Handle add or update latest tag'
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  add-tag:
+    uses: ./.github/workflows/add-tag.yml
+    with:
+      tag: ${{ github.event.inputs.tag }}
+      is-latest: ${{ github.event.inputs.is-latest }}
