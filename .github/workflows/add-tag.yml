@@ -14,6 +14,14 @@ on:
         type: boolean
 
 jobs:
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Input test
+        run: echo "${{ github.event.inputs.is-latest }}"
+        
   create-tag:
     name: Create and push Tag
     uses: ./.github/workflows/create-push-tags.yml

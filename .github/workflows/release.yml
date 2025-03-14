@@ -8,21 +8,15 @@ on:
         required: true
         type: string
       is-latest:
-        description: 'Handle add or update latest tag'
+        description: 'Is latest version'
         required: false
         default: true
         type: boolean
 
 jobs:
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Input test
-        run: echo "${{ github.event.inputs.is-latest }}"
   add-tag:
     name: Release workflow
     uses: ./.github/workflows/add-tag.yml
     with:
       tag: ${{ github.event.inputs.tag }}
-      is-latest: ${{ github.event.inputs.is-latest }} == 'true'
+      is-latest: ${{ github.event.inputs.is-latest  == 'true'}}
