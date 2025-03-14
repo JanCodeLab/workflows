@@ -22,7 +22,7 @@ jobs:
 
   create-tag:
     needs: check-tag-exists
-    if: ${{ !needs.check-tag-exists.outputs.exists == 'true'}}
+    if: ${{ needs.check-tag-exists.outputs.exists == 'false'}}
     name: Create and push Tag
     uses: ./.github/workflows/create-push-tags.yml
     with:
