@@ -10,8 +10,8 @@ on:
       is-latest:
         description: 'Handle add or update latest tag'
         required: false
-        default: true
-        type: boolean
+        default: 'true'
+        type: string
 
 jobs:
   create-tag:
@@ -40,7 +40,7 @@ jobs:
           echo "✅ Successfully created and pushed tag: $TAG"
           
       - name: Update latest tag
-        if: ${{ inputs.is-latest }}
+        if: ${{ inputs.is-latest == 'true' }}
         run: |
           echo "Updating latest tag to point to the same commit as ${{ inputs.tag }}"
           
