@@ -1,4 +1,4 @@
-name: Self Deploy
+name: Release
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ on:
         type: boolean
 
 jobs:
-  self-deploy:
+  add-tag:
     uses: ./add-tag.yml
     with:
       tag: ${{ github.event.inputs.tag }}
