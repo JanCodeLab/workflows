@@ -32,7 +32,7 @@ jobs:
 
   create-tag:
     needs: process-tag
-    uses: ./create-push-tags.yml
+    uses: ./.github/workflows/create-push-tags.yml
     with:
       tag: ${{ needs.process-tag.outputs.tag }}
       is-latest: ${{ inputs.is-latest }}
