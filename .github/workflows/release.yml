@@ -15,6 +15,7 @@ on:
 
 jobs:
   add-tag:
+    name: Release workflow
     uses: ./.github/workflows/add-tag.yml
     with:
       tag: ${{ github.event.inputs.tag }}
