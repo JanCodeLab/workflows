@@ -12,13 +12,10 @@ on:
         required: false
         default: true
         type: boolean
-    outputs:
-      tag:
-        description: "The tag that was created"
-        value: ${{ jobs.extract-tag.outputs.tag }}
 
 jobs:
   extract-tag:
+    name: Extract Tag from package.json
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.get-tag.outputs.tag }}
