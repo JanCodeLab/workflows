@@ -18,4 +18,4 @@ jobs:
     uses: ./.github/workflows/add-tag.yml
     with:
       tag: ${{ github.event.inputs.tag }}
-      is-latest: ${{ github.event.inputs.is-latest }}
+      is-latest: ${{ github.event.inputs.is-latest == 'true'}}

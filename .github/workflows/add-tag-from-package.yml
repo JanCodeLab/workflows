@@ -61,4 +61,4 @@ jobs:
     uses: ./.github/workflows/create-push-tags.yml
     with:
       tag: ${{ needs.extract-tag.outputs.tag }}
-      is-latest: ${{ inputs.is-latest }}
+      is-latest: ${{ inputs.is-latest == 'true' }}
