@@ -1,3 +1,4 @@
+[![Release](https://github.com/JanCodeLab/workflows/actions/workflows/release.yml/badge.svg?event=workflow_dispatch)](https://github.com/JanCodeLab/workflows/actions/workflows/release.yml)
 # Add tag workflow
 
 This GitHub Action adds a tag to the current branch and pushes it to remote. It can also add or update the 'latest' tag.
