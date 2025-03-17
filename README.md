@@ -19,6 +19,7 @@ add-tag:
 | Input | Description | Required | Default |
 |-------|-------------|----------|---------|
 | `tag` | Tag to add. | Yes | `''` |
+| `remote-name` | Remote name of target repository | No | `origin` |
 | `is-latest` | Set current tag as latest | No | `true` |
 
 # Add tag from package json workflow
@@ -41,10 +42,13 @@ add-tag:
 | Input | Description | Required | Default |
 |-------|-------------|----------|---------|
 | `version-file` | Tag to add. | Yes | `''` |
+| `remote-name` | Remote name of target repository | No | `origin` |
 | `is-latest` | Set current tag as latest | No | `true` |
 
 ## Changelog
-- v1.1 (latest)
+- v1.2 (latest)
+  - Added permissions to workflows
+- v1.1
   - Added tag existence check
 - v1
   - Initial implementation of shared workflow functionalities
