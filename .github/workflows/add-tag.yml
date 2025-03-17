@@ -7,18 +7,31 @@ on:
         description: 'Tag to add'
         required: true
         type: string
+      remote-name:
+        description: 'Name of repository remote'
+        required: false
+        default: 'origin'
+        type: string
       is-latest:
         description: 'Handle add or update latest tag'
         required: false
         default: true
         type: boolean
+    outputs:
+      tag-exists:
+        description: 'Whether the tag exists on remote'
+        value: ${{ jobs.check-tag-exists.outputs.exists }}
 
+permissions:
+  contents: write
+  
 jobs:
   check-tag-exists:
     name: Check if tag exists
     uses: JanCodeLab/workflows/.github/workflows/check-tag-exists.yml@latest
     with:
       tag: ${{ inputs.tag }}
+      remote-name: ${{ inputs.remote-name }}
 
   create-tag:
     needs: check-tag-exists
@@ -27,4 +40,5 @@ jobs:
     uses: JanCodeLab/workflows/.github/workflows/create-push-tags.yml@latest
     with:
       tag: ${{ needs.check-tag-exists.outputs.tag }}
+      remote-name: ${{ inputs.remote-name }}
       is-latest: ${{ inputs.is-latest }}
