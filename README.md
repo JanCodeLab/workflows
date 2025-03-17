@@ -48,7 +48,7 @@ add-tag:
 ## Changelog
 - v1.2 (latest)
   - Added permissions to workflows
-- v1.1 (latest)
+- v1.1
   - Added tag existence check
 - v1
   - Initial implementation of shared workflow functionalities
