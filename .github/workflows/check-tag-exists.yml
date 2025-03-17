@@ -15,7 +15,7 @@ on:
     outputs:
       exists:
         description: 'Whether the tag exists on remote'
-        value: ${{ jobs.check-tag.outputs.tag_exists }}
+        value: ${{ jobs.check-tag.outputs.tag-exists }}
       tag:
         description: 'Checked tag'
         value: ${{ inputs.tag }}
@@ -25,7 +25,7 @@ jobs:
     name: Check if tag exists
     runs-on: ubuntu-latest
     outputs:
-      tag_exists: ${{ steps.check-tag.outputs.exists }}
+      tag-exists: ${{ steps.check-tag.outputs.exists }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
