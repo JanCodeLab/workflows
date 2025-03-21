@@ -16,7 +16,7 @@ on:
 jobs:
   check-tag-exists:
     name: Check if tag exists
-    uses: .github/workflows/check-tag-exists.yml
+    uses: ./.github/workflows/check-tag-exists.yml
     with:
       tag: ${{ inputs.tag }}
       remote-name: ${{ inputs.remote-name }}
@@ -25,7 +25,7 @@ jobs:
     needs: check-tag-exists
     if: ${{ needs.check-tag-exists.outputs.exists == 'false'}}
     name: Create and push Tag
-    uses: .github/workflows/create-push-tags.yml
+    uses: ./.github/workflows/create-push-tags.yml
     with:
       tag: ${{ needs.check-tag-exists.outputs.tag }}
       remote-name: ${{ inputs.remote-name }}
