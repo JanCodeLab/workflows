@@ -19,7 +19,6 @@ jobs:
     uses: ./.github/workflows/check-tag-exists.yml
     with:
       tag: ${{ inputs.tag }}
-      remote-name: ${{ inputs.remote-name }}
 
   create-tag:
     needs: check-tag-exists
@@ -28,5 +27,4 @@ jobs:
     uses: ./.github/workflows/create-push-tags.yml
     with:
       tag: ${{ needs.check-tag-exists.outputs.tag }}
-      remote-name: ${{ inputs.remote-name }}
       is-latest: ${{ inputs.is-latest }}
